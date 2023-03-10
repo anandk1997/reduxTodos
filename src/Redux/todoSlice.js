@@ -36,7 +36,6 @@ const todoSlice = createSlice({
       }
     },
 
-
     completeMultipleTodos: (state, action) => {
       const ids = action.payload;
       state.forEach((todo) => {
@@ -45,8 +44,6 @@ const todoSlice = createSlice({
         }
       });
     },
-
-
 
     markAllCompleted: (state, action) => {
       const completedStatus = action.payload;
