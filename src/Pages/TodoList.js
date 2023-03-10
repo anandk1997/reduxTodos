@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { completeMultipleTodos, deleteSelectedTodos } from "../Redux/todoSlice";
+import { completeMultipleTodos } from "../Redux/todoSlice";
 import TodoItem from "../Components/TodoItem";
 import { Button, Form } from "react-bootstrap";
 import { useTodos } from "../Hooks/useTodos";
@@ -37,13 +37,6 @@ const TodoList = () => {
     setSelectedIds([]);
   };
 
-
-  const handleDeleteSelectedTodos = () => {
-
-    console.log("object", deleteSelectedTodos);
-    dispatch(deleteSelectedTodos());
-  };
-
   return (
     <>
       <div className="d-flex justify-content-center flex-column align-items-center vh-100 my-4">
@@ -67,75 +60,68 @@ const TodoList = () => {
               className="mt-3"
               onChange={handleMarkAllCompleted}
             />
+
+            <div>
+              <table className="table table-bordered">
+                <thead>
+                  <tr>
+                    <th></th>
+                    <th>Todo ID</th>
+                    <th>Todo Name</th>
+                    <th>Actions</th>
+                    <th>Todo Status</th>
+                  </tr>
+                </thead>
+
+                <tbody>
+                  {tasks?.map((task) => (
+                    <TodoItem
+                      key={task.id}
+                      task={task}
+                      onUpdate={handleUpdateTask}
+                      onDelete={handleDeleteTask}
+                      onComplete={handleCompleteTask}
+                      onAllComplete={handleMarkAllCompleted}
+                      onChecked={selectedIds.includes(task.id)}
+                      onCheckedChange={handleCheckboxChange}
+                    />
+                  ))}
+                </tbody>
+              </table>
+            </div>
+
+            <div className="d-flex justify-content-between">
+              <Button
+                variant="success"
+                onClick={handleCompleteSelected}
+                className="ms-2"
+              >
+                Complete Selected
+              </Button>
+              <Button
+                variant="danger"
+                onClick={handleDeleteCompletedTasks}
+                className="ms-2"
+              >
+                Delete Completed Tasks
+              </Button>
+              <Button
+                variant="secondary"
+                onClick={() => handleSortTasks("asc")}
+                className="ms-2"
+              >
+                Sort A-Z
+              </Button>
+              <Button
+                variant="secondary"
+                onClick={() => handleSortTasks("desc")}
+                className="ms-2"
+              >
+                Sort Z-A
+              </Button>
+            </div>
           </>
         ) : null}
-
-        <div>
-          <table className="table table-bordered">
-            <thead>
-              <tr>
-                <th></th>
-                <th>Todo ID</th>
-                <th>Todo Name</th>
-                <th>Actions</th>
-                <th>Todo Status</th>
-              </tr>
-            </thead>
-
-            <tbody>
-              {tasks?.map((task) => (
-                <TodoItem
-                  key={task.id}
-                  task={task}
-                  onUpdate={handleUpdateTask}
-                  onDelete={handleDeleteTask}
-                  onComplete={handleCompleteTask}
-                  onAllComplete={handleMarkAllCompleted}
-                  onChecked={selectedIds.includes(task.id)}
-                  onCheckedChange={handleCheckboxChange}
-                />
-              ))}
-            </tbody>
-          </table>
-        </div>
-
-        <div className="d-flex justify-content-between">
-          <Button
-            variant="success"
-            onClick={handleCompleteSelected}
-            className="ms-2"
-          >
-            Complete Selected
-          </Button>
-          <Button
-            variant="danger"
-            onClick={handleDeleteCompletedTasks}
-            className="ms-2"
-          >
-            Delete Completed Tasks
-          </Button>
-          <Button
-            variant="secondary"
-            onClick={() => handleSortTasks("asc")}
-            className="ms-2"
-          >
-            Sort A-Z
-          </Button>
-          <Button
-            variant="secondary"
-            onClick={() => handleSortTasks("desc")}
-            className="ms-2"
-          >
-            Sort Z-A
-          </Button>
-          <Button
-            variant="secondary"
-            onClick={() => handleDeleteSelectedTodos("desc")}
-            className="ms-2"
-          >
-            Sort Z-A
-          </Button>
-        </div>
       </div>
     </>
   );

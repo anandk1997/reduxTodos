@@ -47,9 +47,6 @@ const todoSlice = createSlice({
     },
 
 
-    deleteSelectedTodos: (state) => {
-      return state.filter((todo) => !todo.selected);
-    },
 
     markAllCompleted: (state, action) => {
       const completedStatus = action.payload;
@@ -87,7 +84,6 @@ export const {
   deleteCompletedTasks,
   sortTasks,
   completeMultipleTodos,
-  deleteSelectedTodos
 } = todoSlice.actions;
 
 export default todoSlice.reducer;
