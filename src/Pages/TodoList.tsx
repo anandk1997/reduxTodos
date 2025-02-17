@@ -2,10 +2,10 @@ import React, { useState } from "react";
 import { completeMultipleTodos } from "../Redux/todoSlice";
 import TodoItem from "../Components/TodoItem";
 import { Button, Form } from "react-bootstrap";
-import { useTodos } from "../Hooks/useTodos";
+import { useTodos } from "src/Hooks/useTodos";
 
 const TodoList = () => {
-  const [selectedIds, setSelectedIds] = useState([]);
+  const [selectedIds, setSelectedIds] = useState<number[]>([]);
 
   const {
     dispatch,
@@ -21,7 +21,7 @@ const TodoList = () => {
     handleSortTasks,
   } = useTodos();
 
-  const handleCheckboxChange = (event) => {
+  const handleCheckboxChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const id = parseInt(event.target.value);
     const isChecked = event.target.checked;
 
@@ -81,7 +81,6 @@ const TodoList = () => {
                       onUpdate={handleUpdateTask}
                       onDelete={handleDeleteTask}
                       onComplete={handleCompleteTask}
-                      onAllComplete={handleMarkAllCompleted}
                       onChecked={selectedIds.includes(task.id)}
                       onCheckedChange={handleCheckboxChange}
                     />

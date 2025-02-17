@@ -1,9 +1,24 @@
-import React, { useReducer, useState } from "react";
+import React, { ChangeEvent, FormEvent, useReducer, useState } from "react";
 import { Button, Form } from "react-bootstrap";
 import { AiFillDelete, AiFillEdit } from "react-icons/ai";
 import { FaCheck } from "react-icons/fa";
 
-const TodoItem = ({
+interface Task {
+  id: number;
+  text: string;
+  completed: boolean;
+}
+
+interface TodoItemProps {
+  task: Task;
+  onUpdate: (id: number, newText: string) => void;
+  onDelete: (id: number) => void;
+  onComplete: (id: number) => void;
+  onChecked: boolean;
+  onCheckedChange: (event: ChangeEvent<HTMLInputElement>) => void;
+}
+
+const TodoItem: React.FC<TodoItemProps> = ({
   task,
   onUpdate,
   onDelete,
@@ -14,10 +29,10 @@ const TodoItem = ({
   const [editMode, setEditMode] = useReducer((show) => !show, false);
   const [newText, setNewText] = useState(task.text);
 
-  const handleUpdateTask = (e) => {
+  const handleUpdateTask = (e: FormEvent) => {
     e.preventDefault();
     onUpdate(task.id, newText);
-    setEditMode(false);
+    setEditMode();
   };
 
   return (
@@ -73,7 +88,7 @@ const TodoItem = ({
           </>
         )}
 
-        <td className={task.completed ? "text-success" : null}>
+        <td className={task.completed ? "text-success" : ""}>
           {task.completed ? "Completed" : "Incomplete"}
         </td>
       </tr>

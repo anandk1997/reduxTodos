@@ -1,5 +1,4 @@
-import { useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { ChangeEvent, useState } from "react";
 import {
   addTask,
   completeTask,
@@ -9,10 +8,11 @@ import {
   sortTasks,
   updateTask,
 } from "../Redux/todoSlice";
+import { useAppDispatch, useAppSelector } from "../Redux/Store";
 
 export const useTodos = () => {
-  const tasks = useSelector((state) => state.todoList);
-  const dispatch = useDispatch();
+  const tasks = useAppSelector((state) => state.todoList);
+  const dispatch = useAppDispatch();
   const [newTask, setNewTask] = useState("");
 
   const handleAddTask = () => {
@@ -22,19 +22,19 @@ export const useTodos = () => {
     }
   };
 
-  const handleUpdateTask = (id, newText) => {
+  const handleUpdateTask = (id: number, newText: string) => {
     dispatch(updateTask({ id, newText }));
   };
 
-  const handleDeleteTask = (id) => {
+  const handleDeleteTask = (id: number) => {
     dispatch(deleteTask(id));
   };
 
-  const handleCompleteTask = (id) => {
+  const handleCompleteTask = (id: number) => {
     dispatch(completeTask(id));
   };
 
-  const handleMarkAllCompleted = (event) => {
+  const handleMarkAllCompleted = (event: ChangeEvent<HTMLInputElement>) => {
     dispatch(markAllCompleted(event.target.checked));
   };
 
@@ -42,7 +42,7 @@ export const useTodos = () => {
     dispatch(deleteCompletedTasks());
   };
 
-  const handleSortTasks = (sortType) => {
+  const handleSortTasks = (sortType: "asc" | "desc") => {
     dispatch(sortTasks(sortType));
   };
 
